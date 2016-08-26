@@ -18,7 +18,7 @@
  */
 
 #import "CDVKeychain.h"
-#import "A0SimpleKeychain.h"
+#import "SAMKeychain.h"
 
 @implementation CDVKeychain
 
@@ -35,16 +35,8 @@
     }
 
     NSString *key = [arguments objectAtIndex:0];
-    NSString *touchIDMessage = [arguments objectAtIndex:1];
 
-    NSString *message = NSLocalizedString(touchIDMessage, @"Prompt TouchID message");
-
-    A0SimpleKeychain *keychain = [A0SimpleKeychain keychain];
-
-    keychain.useAccessControl = YES;
-    keychain.defaultAccessiblity = A0SimpleKeychainItemAccessibleWhenPasscodeSetThisDeviceOnly;
-
-    NSString *value = [keychain stringForKey:key promptMessage:message];
+    NSString *value = [SAMKeychain passwordForService:key account:@"myct"];
 
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:value];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -65,16 +57,8 @@
 
     NSString* key = [arguments objectAtIndex:0];
     NSString* value = [arguments objectAtIndex:1];
-    BOOL useTouchID = [arguments objectAtIndex:2];
 
-    A0SimpleKeychain *keychain = [A0SimpleKeychain keychain];
-
-    if(useTouchID) {
-      keychain.useAccessControl = YES;
-      keychain.defaultAccessiblity = A0SimpleKeychainItemAccessibleWhenPasscodeSetThisDeviceOnly;
-    }
-
-    [keychain setString:value forKey:key];
+    [SAMKeychain setPassword:value forService:key account:@"myct"];
 
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -95,8 +79,7 @@
 
     NSString *key = [arguments objectAtIndex:0];
 
-    A0SimpleKeychain *keychain = [A0SimpleKeychain keychain];
-    [keychain deleteEntryForKey:key];
+    [SAMKeychain deletePasswordForService:key account:@"myct"];
 
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];

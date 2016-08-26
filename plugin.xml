@@ -28,10 +28,12 @@
         </config-file>
 
         <header-file src="src/ios/CDVKeychain.h" />
-        <header-file src="src/ios/A0SimpleKeychain.h"/>
+        <header-file src="src/ios/SAMKeychain/SAMKeychain.h"/>
+        <header-file src="src/ios/SAMKeychain/SAMKeychainQuery.h"/>
 
         <source-file src="src/ios/CDVKeychain.m"/>
-        <source-file src="src/ios/A0SimpleKeychain.m"/>
+        <source-file src="src/ios/SAMKeychain/SAMKeychain.m"/>
+        <source-file src="src/ios/SAMKeychain/SAMKeychainQuery.m"/>
 
         <framework src="Security.framework" />
 
